@@ -34,7 +34,7 @@ export default function MenuSection() {
     activeTab === "All" ? ["Sides & Sips", "Signature"] : [activeTab];
 
   return (
-    <section id="menu" data-stage={7} className="relative bg-[#17130f] pb-28 pt-16 sm:pt-24 lg:pt-32" data-testid="menu-section">
+    <section id="menu" data-stage={7} className="relative bg-[#17130f] pb-36 pt-10 sm:pt-16 lg:pb-28 lg:pt-32" data-testid="menu-section">
       <div className="mx-auto grid max-w-[1400px] gap-12 px-5 sm:px-8 lg:grid-cols-[280px_1fr] lg:px-10">
         {/* left rail: Chef Crave lands here on desktop, cart summary below him */}
         <aside className="hidden lg:block">

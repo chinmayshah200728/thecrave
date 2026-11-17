@@ -31,7 +31,7 @@ export default function DishSection({ dish, index }: { dish: Dish; index: number
     <section
       ref={ref}
       data-stage={index + 1}
-      className="relative flex min-h-[92svh] items-start overflow-hidden bg-[#120f0d] pb-56 pt-20 sm:pb-60 lg:min-h-screen lg:items-center lg:py-24"
+      className="relative flex items-start overflow-hidden bg-[#120f0d] py-7 sm:py-10 lg:min-h-screen lg:items-center lg:py-24"
       data-testid={`dish-section-${dish.id}`}
     >
       {/* Warm ambient glow behind the photo side */}

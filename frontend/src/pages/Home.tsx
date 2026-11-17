@@ -22,8 +22,8 @@ export default function Home() {
         setStage(0);
         return;
       }
-      // Announce the next dish as soon as its top enters the lower 28% of the screen (before crossing it)
-      const triggerY = window.innerHeight * 0.72;
+      // Announce each dish as it enters focus (before crossing it), calibrated for mobile vs desktop card heights
+      const triggerY = window.innerHeight * (window.innerWidth >= 1024 ? 0.65 : 0.48);
       let nextStage = 0;
       for (const el of sections) {
         if (el.getBoundingClientRect().top <= triggerY) {
