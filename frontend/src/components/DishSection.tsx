@@ -26,7 +26,7 @@ export default function DishSection({ dish, index }: { dish: Dish; index: number
     <section
       ref={ref}
       data-stage={index + 1}
-      className="relative overflow-hidden bg-[#120f0d] py-20 lg:flex lg:min-h-screen lg:items-center lg:py-28"
+      className="relative overflow-hidden bg-[#120f0d] py-14 sm:py-20 lg:flex lg:min-h-screen lg:items-center lg:py-28"
       data-testid={`dish-section-${dish.id}`}
     >
       <div
@@ -45,12 +45,12 @@ export default function DishSection({ dish, index }: { dish: Dish; index: number
       </motion.span>
 
       <div
-        className={`relative mx-auto grid max-w-[1400px] items-center gap-12 px-5 sm:px-8 lg:grid-cols-12 lg:gap-16 lg:px-16 ${
+        className={`relative mx-auto grid max-w-[1400px] items-center gap-8 sm:gap-12 px-5 sm:px-8 lg:grid-cols-12 lg:gap-16 lg:px-16 ${
           imageLeft ? "" : "lg:[&>*:first-child]:order-2"
         }`}
       >
         <div className={`lg:col-span-6 ${imageLeft ? "" : "lg:col-start-7"}`}>
-          <div className="relative aspect-[4/5] overflow-hidden rounded-[28px] border border-[#e9b872]/15 shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)] sm:aspect-[5/5]">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl sm:rounded-[28px] border border-[#e9b872]/15 shadow-[0_24px_80px_-25px_rgba(0,0,0,0.85)] sm:shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)] sm:aspect-[5/5]">
             <motion.img
               src={dish.image}
               alt={dish.name}
@@ -60,7 +60,7 @@ export default function DishSection({ dish, index }: { dish: Dish; index: number
               data-testid={`dish-image-${dish.id}`}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#120f0d]/70 via-transparent to-transparent" />
-            <span className="absolute left-5 top-5 rounded-full border border-[#e9b872]/30 bg-[#17130f]/70 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-[#e9b872] backdrop-blur-md">
+            <span className="absolute left-4 top-4 sm:left-5 sm:top-5 rounded-full border border-[#e9b872]/30 bg-[#17130f]/75 px-3 py-1 sm:py-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-[#e9b872] backdrop-blur-md">
               Station {n} / 06
             </span>
           </div>
@@ -70,14 +70,14 @@ export default function DishSection({ dish, index }: { dish: Dish; index: number
           <motion.p
             {...reveal}
             transition={{ duration: 0.7 }}
-            className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#e9b872]"
+            className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.24em] sm:tracking-[0.28em] text-[#e9b872]"
           >
             {n} · {dish.station}
           </motion.p>
           <motion.h2
             {...reveal}
             transition={{ duration: 0.8, delay: 0.08 }}
-            className="mt-5 font-heading text-[clamp(2.4rem,5vw,4.5rem)] leading-[0.95] tracking-[-0.02em] text-[#f6eee3]"
+            className="mt-3 sm:mt-5 font-heading text-[clamp(2rem,5vw,4.5rem)] leading-[0.98] sm:leading-[0.95] tracking-[-0.02em] text-[#f6eee3]"
             data-testid={`dish-title-${dish.id}`}
           >
             {dish.name}
@@ -85,26 +85,26 @@ export default function DishSection({ dish, index }: { dish: Dish; index: number
           <motion.p
             {...reveal}
             transition={{ duration: 0.8, delay: 0.16 }}
-            className="mt-6 max-w-md text-base leading-relaxed text-[#d4c7b8] sm:text-lg"
+            className="mt-4 sm:mt-6 max-w-md text-sm sm:text-lg leading-relaxed text-[#d4c7b8]"
           >
             {dish.story}
           </motion.p>
           <motion.blockquote
             {...reveal}
             transition={{ duration: 0.8, delay: 0.22 }}
-            className="mt-6 max-w-md border-l border-[#e9b872]/40 pl-4 font-heading text-lg italic text-[#e9b872]/90"
+            className="mt-4 sm:mt-6 max-w-md border-l border-[#e9b872]/40 pl-3.5 sm:pl-4 font-heading text-base sm:text-lg italic text-[#e9b872]/90"
           >
             “{dish.chefLine}”
           </motion.blockquote>
-          <motion.div {...reveal} transition={{ duration: 0.8, delay: 0.28 }} className="mt-6 flex flex-wrap gap-2">
+          <motion.div {...reveal} transition={{ duration: 0.8, delay: 0.28 }} className="mt-4 sm:mt-6 flex flex-wrap gap-2">
             {dish.tags.map((t) => (
               <span key={t} className="rounded-full bg-[#2d2319] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.15em] text-[#e9b872]">
                 {t}
               </span>
             ))}
           </motion.div>
-          <motion.div {...reveal} transition={{ duration: 0.8, delay: 0.34 }} className="mt-9 flex items-center gap-6">
-            <span className="font-heading text-3xl text-[#f6eee3]" data-testid={`dish-price-${dish.id}`}>
+          <motion.div {...reveal} transition={{ duration: 0.8, delay: 0.34 }} className="mt-7 sm:mt-9 flex items-center justify-between sm:justify-start sm:gap-6">
+            <span className="font-heading text-2xl sm:text-3xl text-[#f6eee3]" data-testid={`dish-price-${dish.id}`}>
               {formatINR(dish.price)}
             </span>
             <button

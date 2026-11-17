@@ -123,14 +123,24 @@ export default function MenuSection() {
       </div>
 
       {count > 0 && (
-        <button
-          type="button"
-          onClick={() => setCartOpen(true)}
-          className="fixed bottom-5 left-1/2 z-30 flex -translate-x-1/2 items-center gap-3 rounded-full bg-[#c8664a] px-6 py-3.5 text-sm font-medium text-white shadow-2xl lg:hidden"
-          data-testid="mobile-cart-bar"
-        >
-          <ShoppingBag className="size-4" /> {count} items · {formatINR(subtotal)}
-        </button>
+        <div className="fixed inset-x-4 bottom-4 z-40 lg:hidden">
+          <button
+            type="button"
+            onClick={() => setCartOpen(true)}
+            className="flex w-full items-center justify-between rounded-full bg-[#c8664a] px-5 py-3.5 text-sm font-medium text-white shadow-[0_12px_36px_rgba(200,102,74,0.5)] transition-transform active:scale-[0.98]"
+            data-testid="mobile-cart-bar"
+          >
+            <span className="flex items-center gap-2">
+              <span className="grid size-6 place-items-center rounded-full bg-white/20 font-mono text-xs">
+                {count}
+              </span>
+              <span>{count === 1 ? "item" : "items"} in cart</span>
+            </span>
+            <span className="flex items-center gap-1.5 font-heading text-base font-semibold">
+              View cart · {formatINR(subtotal)}
+            </span>
+          </button>
+        </div>
       )}
     </section>
   );
