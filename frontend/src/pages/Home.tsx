@@ -20,7 +20,19 @@ export default function Home() {
       { rootMargin: "-45% 0px -50% 0px" },
     );
     document.querySelectorAll<HTMLElement>("[data-stage]").forEach((el) => io.observe(el));
-    return () => io.disconnect();
+
+    // Always restore Chef Crave to Hero stage (0) promptly when scrolling back to the top
+    const onScroll = () => {
+      if (window.scrollY < window.innerHeight * 0.35) {
+        setStage(0);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    return () => {
+      io.disconnect();
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
 
   return (

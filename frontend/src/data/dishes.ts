@@ -15,6 +15,10 @@ export interface Dish {
   station?: string;
   story?: string;
   chefLine?: string;
+  chefDetail?: string;
+  prepTime?: string;
+  flavorProfile?: string;
+  pairing?: string;
 }
 
 export const DISHES: Dish[] = [
@@ -29,6 +33,10 @@ export const DISHES: Dish[] = [
     station: "The Breakfast Window",
     story: "Silky avocado, a soft egg, garden greens and a bright chilli finish on toasted sourdough.",
     chefLine: "Crisped on the cast-iron at dawn — squeeze that lemon!",
+    chefDetail: "24-hour fermented sourdough toasted in cultured butter, topped with whipped Hass avocado, a jammy 6-minute egg, microgreens, and flaky chilli salt.",
+    prepTime: "12 mins",
+    flavorProfile: "Creamy · Zesty · Crisp",
+    pairing: "Pairs great with Kulhad Masala Chai",
   },
   {
     id: "harvest-bowl",
@@ -41,6 +49,10 @@ export const DISHES: Dish[] = [
     station: "The Greens Counter",
     story: "Roasted seasonal vegetables, greens, grains, hummus and citrus in a bowl that eats like sunshine.",
     chefLine: "Greens picked this morning. Sunshine, but make it a bowl.",
+    chefDetail: "Charred baby broccoli, spiced sweet potato, tri-color quinoa, whipped chickpea hummus, and cold-pressed lemon-tahini dressing. ~24g plant protein!",
+    prepTime: "14 mins",
+    flavorProfile: "Fresh · Earthy · Citrusy",
+    pairing: "Try with Coconut Espresso Cooler",
   },
   {
     id: "emerald-arborio",
@@ -53,6 +65,10 @@ export const DISHES: Dish[] = [
     station: "The Risotto Stove",
     story: "Creamy arborio rice folded with greens, herbs and parmesan for an indulgent green plate.",
     chefLine: "Eighteen minutes of stirring. Not one less.",
+    chefDetail: "Italian Carnaroli-style arborio slow-simmered ladle by ladle in roasted herb broth, finished with blanched spinach-basil purée and 24-month aged parmesan.",
+    prepTime: "18 mins",
+    flavorProfile: "Velvety · Herby · Rich",
+    pairing: "Add Rosemary Truffle Fries on the side",
   },
   {
     id: "carrot-veloute",
@@ -65,6 +81,10 @@ export const DISHES: Dish[] = [
     station: "By the Soup Pot",
     story: "Slow-roasted carrots, fresh ginger, toasted seeds and a silky, warming finish.",
     chefLine: "Roasted till sweet, blitzed till silky. Pure comfort.",
+    chefDetail: "Heirloom carrots caramelized at 210°C with fresh crushed ginger and coconut milk, topped with crunchy toasted pumpkin seeds and herb oil. 100% dairy-free.",
+    prepTime: "12 mins",
+    flavorProfile: "Silky · Sweet · Warming",
+    pairing: "Dip with Sourdough Avocado Toast",
   },
   {
     id: "coconut-cooler",
@@ -77,6 +97,10 @@ export const DISHES: Dish[] = [
     station: "The Coffee Counter",
     story: "A chilled espresso pour with coconut cream — bright, smooth and made for warm afternoons.",
     chefLine: "Give it a swirl before the first sip. Trust me.",
+    chefDetail: "Double-shot medium-roast Chikmagalur espresso pulled fresh and layered over tender coconut water and lightly sweetened coconut cream.",
+    prepTime: "5 mins",
+    flavorProfile: "Bold · Tropical · Smooth",
+    pairing: "Perfect with Berry Granola Parfait",
   },
   {
     id: "pistachio-affogato",
@@ -89,6 +113,10 @@ export const DISHES: Dish[] = [
     station: "The Sweet Finish",
     story: "Pistachio gelato, a hot espresso pour and just enough crunch to keep you coming back.",
     chefLine: "Hot meets cold. Pour it right down the middle!",
+    chefDetail: "Small-batch roasted Iranian pistachio gelato packed cold alongside a hot single-origin espresso shot and caramelized pistachio crumble — pour right before eating!",
+    prepTime: "6 mins",
+    flavorProfile: "Nutty · Creamy · Bitter-Sweet",
+    pairing: "The ultimate finale to any meal",
   },
   {
     id: "masala-chai",

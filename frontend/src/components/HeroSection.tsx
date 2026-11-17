@@ -29,22 +29,22 @@ export default function HeroSection() {
         ))}
       </div>
 
-      <motion.div style={{ y: textY, opacity: fade }} className="relative mx-auto flex h-full max-w-[1400px] flex-col justify-center px-5 pt-16 sm:px-8 lg:px-16">
+      <motion.div style={{ y: textY, opacity: fade }} className="relative mx-auto flex h-full max-w-[1400px] flex-col justify-start pt-22 sm:pt-24 lg:justify-center lg:pt-16 px-5 sm:px-8 lg:px-16">
         <motion.p initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }} className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] sm:tracking-[0.28em] text-[#e9b872]" data-testid="hero-overline">
           Mumbai · Made fresh — a cinematic food journey
         </motion.p>
-        <h1 className="mt-4 sm:mt-6 max-w-3xl font-heading text-[clamp(2.65rem,9vw,7.5rem)] leading-[0.94] sm:leading-[0.88] tracking-[-0.03em] text-[#f6eee3]" data-testid="hero-title">
+        <h1 className="mt-3 sm:mt-5 max-w-3xl font-heading text-[clamp(2.35rem,8.5vw,7.5rem)] leading-[0.94] sm:leading-[0.88] tracking-[-0.03em] text-[#f6eee3]" data-testid="hero-title">
           {["Fresh food.", "Thoughtfully", "craved."].map((line, i) => (
             <motion.span key={line} initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.2 + i * 0.15, ease: [0.22, 1, 0.36, 1] }} className={`block ${i === 1 ? "italic text-[#e9b872]" : ""}`}>
               {line}
             </motion.span>
           ))}
         </h1>
-        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.75 }} className="mt-5 sm:mt-7 max-w-md text-sm sm:text-lg leading-relaxed text-[#d4c7b8]">
+        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.75 }} className="mt-4 sm:mt-6 max-w-md text-sm sm:text-lg leading-relaxed text-[#d4c7b8]">
           Walk through our kitchen with Chef Crave — six signature cravings, cooked to order and delivered warm to your door.
         </motion.p>
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.9 }} className="mt-7 sm:mt-9 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
-          <a href="#tour" className="group inline-flex w-full sm:w-auto items-center justify-center gap-3 rounded-full bg-[#c8664a] px-7 py-3.5 sm:py-4 text-sm sm:text-[15px] font-medium text-white shadow-[0_10px_40px_-10px_rgba(200,102,74,0.7)] transition-[background-color,transform] duration-200 hover:-translate-y-0.5 hover:bg-[#d9775c]" data-testid="explore-tour-btn">
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.9 }} className="mt-6 sm:mt-8 flex flex-wrap items-center gap-4 sm:gap-6">
+          <a href="#tour" className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-[#c8664a] px-6 py-3 sm:px-7 sm:py-4 text-sm sm:text-[15px] font-medium text-white shadow-[0_10px_40px_-10px_rgba(200,102,74,0.7)] transition-[background-color,transform] duration-200 hover:-translate-y-0.5 hover:bg-[#d9775c]" data-testid="explore-tour-btn">
             Step into the kitchen
             <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-1" />
           </a>
@@ -54,7 +54,7 @@ export default function HeroSection() {
         </motion.div>
       </motion.div>
 
-      <div className="absolute bottom-6 left-5 sm:bottom-8 sm:left-1/2 flex sm:-translate-x-1/2 items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em] sm:tracking-[0.25em] text-[#c4b5a5]/70">
+      <div className="absolute bottom-3 left-1/2 hidden sm:flex -translate-x-1/2 items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-[#c4b5a5]/70">
         Scroll to step inside <ArrowDown className="size-3 animate-bounce" />
       </div>
     </section>
