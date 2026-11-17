@@ -5,10 +5,12 @@ import { toast } from "sonner";
 import type { Dish } from "@/data/dishes";
 import { useCart } from "@/lib/cart";
 import { formatINR } from "@/lib/types";
+import QtyStepper from "@/components/QtyStepper";
 
 export default function DishSection({ dish, index }: { dish: Dish; index: number }) {
   const ref = useRef<HTMLElement>(null);
-  const { add } = useCart();
+  const { lines, add, setQty } = useCart();
+  const qty = lines[dish.id] ?? 0;
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const imgY = useTransform(scrollYProgress, [0, 1], [80, -80]);
   const imgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.12, 1, 1.06]);
@@ -26,7 +28,7 @@ export default function DishSection({ dish, index }: { dish: Dish; index: number
     <section
       ref={ref}
       data-stage={index + 1}
-      className="relative overflow-hidden bg-[#120f0d] py-14 sm:py-20 lg:flex lg:min-h-screen lg:items-center lg:py-28"
+      className="relative hidden overflow-hidden bg-[#120f0d] py-20 lg:flex lg:min-h-screen lg:items-center lg:py-28"
       data-testid={`dish-section-${dish.id}`}
     >
       <div
@@ -107,17 +109,21 @@ export default function DishSection({ dish, index }: { dish: Dish; index: number
             <span className="font-heading text-2xl sm:text-3xl text-[#f6eee3]" data-testid={`dish-price-${dish.id}`}>
               {formatINR(dish.price)}
             </span>
-            <button
-              type="button"
-              onClick={() => {
-                add(dish.id);
-                toast.success(`${dish.name} added to your order`);
-              }}
-              className="group inline-flex items-center gap-2 rounded-full bg-[#c8664a] px-5 py-3 text-sm font-medium text-white transition-[background-color,transform] duration-200 hover:-translate-y-0.5 hover:bg-[#d9775c] active:scale-95"
-              data-testid={`dish-add-${dish.id}`}
-            >
-              <Plus className="size-4 transition-transform duration-200 group-hover:rotate-90" /> Add to order
-            </button>
+            {qty > 0 ? (
+              <QtyStepper qty={qty} onChange={(q) => setQty(dish.id, q)} testId={`dish-${dish.id}`} />
+            ) : (
+              <button
+                type="button"
+                onClick={() => {
+                  add(dish.id);
+                  toast.success(`${dish.name} added to your order`);
+                }}
+                className="group inline-flex items-center gap-2 rounded-full bg-[#c8664a] px-5 py-3 text-sm font-medium text-white transition-[background-color,transform] duration-200 hover:-translate-y-0.5 hover:bg-[#d9775c] active:scale-95"
+                data-testid={`dish-add-${dish.id}`}
+              >
+                <Plus className="size-4 transition-transform duration-200 group-hover:rotate-90" /> Add to order
+              </button>
+            )}
           </motion.div>
         </div>
       </div>
