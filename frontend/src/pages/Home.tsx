@@ -10,27 +10,41 @@ import { SIGNATURE } from "@/data/dishes";
 export default function Home() {
   const [stage, setStage] = useState(0);
 
-  // Which story section is crossing the middle of the viewport drives Chef Crave.
+  // Trigger each stage early as the product enters view (before crossing it),
+  // and cleanly restore Stage 0 when scrolling back near the top.
   useEffect(() => {
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) if (e.isIntersecting) setStage(Number((e.target as HTMLElement).dataset.stage));
-      },
-      { rootMargin: "-40% 0px -45% 0px" },
-    );
-    document.querySelectorAll<HTMLElement>("[data-stage]").forEach((el) => io.observe(el));
+    const sections = Array.from(document.querySelectorAll<HTMLElement>("[data-stage]"));
+    let rafId = 0;
 
-    // Always restore Chef Crave to Hero stage (0) promptly when scrolling back to the top
-    const onScroll = () => {
-      if (window.scrollY < window.innerHeight * 0.35) {
+    const updateStage = () => {
+      rafId = 0;
+      if (window.scrollY < window.innerHeight * 0.22) {
         setStage(0);
+        return;
       }
+      // Announce the next dish as soon as its top enters the lower 28% of the screen (before crossing it)
+      const triggerY = window.innerHeight * 0.72;
+      let nextStage = 0;
+      for (const el of sections) {
+        if (el.getBoundingClientRect().top <= triggerY) {
+          nextStage = Number(el.dataset.stage);
+        }
+      }
+      setStage(nextStage);
     };
+
+    const onScroll = () => {
+      if (!rafId) rafId = window.requestAnimationFrame(updateStage);
+    };
+
+    updateStage();
     window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
 
     return () => {
-      io.disconnect();
+      if (rafId) window.cancelAnimationFrame(rafId);
       window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
     };
   }, []);
 

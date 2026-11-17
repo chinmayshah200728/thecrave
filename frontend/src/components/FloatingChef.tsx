@@ -69,7 +69,7 @@ function SpeechBubble({
     placement === "side-right"
       ? "left-[104%] top-6 w-[320px]"
       : placement === "side-left"
-        ? "right-[104%] bottom-0 w-[calc(100vw-118px)] max-w-[340px]"
+        ? "right-[108%] bottom-0 w-[calc(100vw-96px)] max-w-[340px]"
         : placement === "top-center"
           ? "bottom-[102%] left-1/2 -translate-x-1/2 w-[min(355px,calc(100vw-24px))]"
           : "bottom-[102%] right-0 w-[min(330px,calc(100vw-24px))]";
@@ -231,14 +231,14 @@ export default function FloatingChef({ stage }: { stage: number }) {
   }
 
   // Mobile layout:
-  // - Stage 0 (Hero / scrolled back up): large & centered (164x205) with centered bubble above
-  // - Stage >= 1 (Dish Tour & Menu): docked cleanly at bottom-right (96x122) with bubble BESIDE him on the left
+  // - Stage 0 (Hero / scrolled back up): centered & larger (135x170) with centered bubble above
+  // - Stage >= 1 (Dish Tour & Menu): compact small chef at bottom-right (72x92) with full readable bubble BESIDE him on the left
   //   so it NEVER covers the dish photo, title, price, or Add to Order button!
   if (!desktop) {
     const isHero = stage === 0;
     const mobilePos = isHero
-      ? { left: "calc(50vw - 82px)", bottom: 20, width: 164, height: 205 }
-      : { left: "calc(100vw - 108px)", bottom: mobileBottom, width: 96, height: 122 };
+      ? { left: "calc(50vw - 67px)", bottom: 20, width: 135, height: 170 }
+      : { left: "calc(100vw - 84px)", bottom: mobileBottom, width: 72, height: 92 };
 
     return (
       <motion.div
