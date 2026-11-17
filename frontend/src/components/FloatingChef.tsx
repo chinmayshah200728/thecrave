@@ -9,6 +9,7 @@ import { useMediaQuery } from "@/lib/useMediaQuery";
 interface BubbleContent {
   station: string;
   title?: string;
+  quote?: string;
   text: string;
   prepTime?: string;
   flavorProfile?: string;
@@ -29,7 +30,7 @@ function bubbleForStage(stage: number): BubbleContent {
     return {
       station: "Kitchen Door",
       title: "Welcome to The Fresh Crave!",
-      text: "Hi, I'm Chef Crave! Scroll with me through our 6 signature dishes — cooked fresh to order in our Mumbai cloud kitchen.",
+      text: "Hi, I'm Chef Crave! Scroll down and I'll walk you through our 6 signature dishes.",
       pairing: "Free delivery on orders above ₹500",
     };
   }
@@ -38,7 +39,8 @@ function bubbleForStage(stage: number): BubbleContent {
     return {
       station: dish.station ?? `Station 0${stage}`,
       title: dish.name,
-      text: dish.chefDetail ?? dish.chefLine ?? dish.blurb,
+      quote: dish.chefLine,
+      text: dish.chefDetail ?? dish.story ?? dish.blurb,
       prepTime: dish.prepTime,
       flavorProfile: dish.flavorProfile,
       pairing: dish.pairing,
@@ -47,39 +49,45 @@ function bubbleForStage(stage: number): BubbleContent {
   return {
     station: "The Order Pass",
     title: "Ready to order?",
-    text: "Mix and match our Signatures with freshly brewed Masala Chai, Truffle Fries, or Berry Parfait. Packed warm, at your door in ~35 mins!",
+    text: "Add our house sides & sips or switch tabs to browse all 9 dishes. Delivered warm in ~35 mins!",
     pairing: "Pay by Cash or UPI on delivery",
   };
 }
 
 function SpeechBubble({
   bubble,
-  placement = "top-right",
+  placement = "top-center",
+  compact = false,
   onDismiss,
 }: {
   bubble: BubbleContent;
-  placement?: "top-right" | "top-center" | "side-right";
+  placement?: "top-center" | "top-right" | "side-right" | "side-left";
+  compact?: boolean;
   onDismiss: () => void;
 }) {
   const posClass =
     placement === "side-right"
-      ? "left-[104%] top-6"
-      : placement === "top-center"
-        ? "bottom-[102%] left-1/2 -translate-x-1/2"
-        : "bottom-[102%] right-0";
+      ? "left-[104%] top-6 w-[320px]"
+      : placement === "side-left"
+        ? "right-[104%] bottom-0 w-[calc(100vw-118px)] max-w-[340px]"
+        : placement === "top-center"
+          ? "bottom-[102%] left-1/2 -translate-x-1/2 w-[min(355px,calc(100vw-24px))]"
+          : "bottom-[102%] right-0 w-[min(330px,calc(100vw-24px))]";
 
   return (
     <motion.div
       key={`${bubble.station}-${bubble.text}`}
-      initial={{ opacity: 0, y: 10, scale: 0.94 }}
+      initial={{ opacity: 0, y: 10, scale: 0.95 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: 6, scale: 0.96 }}
       transition={{ type: "spring", stiffness: 300, damping: 24 }}
-      className={`absolute z-40 w-[min(315px,calc(100vw-24px))] rounded-2xl border border-[#e9b872]/35 bg-[#17130f]/95 p-4 text-left shadow-[0_20px_60px_rgba(0,0,0,0.85)] backdrop-blur-xl ${posClass}`}
+      className={`absolute z-40 rounded-2xl border border-[#e9b872]/35 bg-[#17130f]/95 text-left shadow-[0_20px_60px_rgba(0,0,0,0.88)] backdrop-blur-xl ${
+        compact ? "p-3" : "p-4 sm:p-5"
+      } ${posClass}`}
       data-testid="chef-speech-bubble"
     >
       <div className="flex items-start justify-between gap-2">
-        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#e9b872]">
+        <p className="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-[#e9b872]">
           Chef Crave · {bubble.station}
         </p>
         <button
@@ -95,30 +103,38 @@ function SpeechBubble({
         </button>
       </div>
 
-      {bubble.title && (
-        <p className="mt-1.5 font-heading text-base font-medium leading-snug text-[#f6eee3]">
+      {bubble.quote && !compact && (
+        <p className="mt-2 font-heading text-base italic leading-snug text-[#e9b872]">
+          “{bubble.quote}”
+        </p>
+      )}
+
+      {!bubble.quote && bubble.title && (
+        <p className={`mt-1 font-heading font-medium leading-snug text-[#f6eee3] ${compact ? "text-sm" : "text-base"}`}>
           {bubble.title}
         </p>
       )}
 
-      <p className="mt-1.5 text-[13px] leading-relaxed text-[#d9cdbf]">{bubble.text}</p>
+      <p className={`mt-1.5 leading-relaxed text-[#e2d6c8] ${compact ? "text-xs" : "text-[13.5px] sm:text-sm"}`}>
+        {bubble.text}
+      </p>
 
       {(bubble.prepTime || bubble.flavorProfile) && (
-        <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-[#e9b872]/15 pt-2.5 text-[11px] text-[#e9b872]">
+        <div className={`flex flex-wrap items-center gap-1.5 border-t border-[#e9b872]/15 text-[#e9b872] ${compact ? "mt-2 pt-2 text-[10px]" : "mt-3 pt-3 text-[11px]"}`}>
           {bubble.prepTime && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-[#2d2319] px-2.5 py-0.5 font-mono">
+            <span className="inline-flex items-center gap-1 rounded-full bg-[#2d2319] px-2 py-0.5 font-mono">
               <Clock className="size-3" /> {bubble.prepTime}
             </span>
           )}
           {bubble.flavorProfile && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-[#2d2319] px-2.5 py-0.5 font-mono">
+            <span className="inline-flex items-center gap-1 rounded-full bg-[#2d2319] px-2 py-0.5 font-mono">
               <Sparkles className="size-3" /> {bubble.flavorProfile}
             </span>
           )}
         </div>
       )}
 
-      {bubble.pairing && (
+      {bubble.pairing && !compact && (
         <p className="mt-2.5 flex items-center gap-1.5 text-xs italic text-[#e9b872]/90">
           <UtensilsCrossed className="size-3 shrink-0" />
           <span>{bubble.pairing}</span>
@@ -140,10 +156,12 @@ export default function FloatingChef({ stage }: { stage: number }) {
   const cheerTimer = useRef<number | undefined>(undefined);
   const prevCount = useRef(count);
 
-  const showBubble = (content: BubbleContent, ms = 12000) => {
+  const showBubble = (content: BubbleContent, autoHideMs?: number) => {
     window.clearTimeout(bubbleTimer.current);
     setBubble(content);
-    bubbleTimer.current = window.setTimeout(() => setBubble(null), ms);
+    if (autoHideMs) {
+      bubbleTimer.current = window.setTimeout(() => setBubble(null), autoHideMs);
+    }
   };
 
   const cheer = (ms: number) => {
@@ -155,7 +173,10 @@ export default function FloatingChef({ stage }: { stage: number }) {
   useEffect(() => {
     setShowingTip(false);
     if (!minimized) {
-      showBubble(bubbleForStage(stage), desktop ? 14000 : 10000);
+      // Keep dish tour speech bubble persistently visible while reading (stages 1..6);
+      // auto-fade welcome/menu bubbles after a comfortable duration
+      const autoHide = stage >= 1 && stage <= SIGNATURE.length ? undefined : 9000;
+      showBubble(bubbleForStage(stage), autoHide);
     }
     if (stage === 7) cheer(2800);
   }, [stage, desktop]);
@@ -169,11 +190,10 @@ export default function FloatingChef({ stage }: { stage: number }) {
 
   const onPoke = () => {
     setBounceKey((k) => k + 1);
-    // If bubble was closed or showing a tip, show the rich dish info for current stage;
-    // otherwise cycle to a fun kitchen tip
     if (!bubble || showingTip) {
       setShowingTip(false);
-      showBubble(bubbleForStage(stage), 14000);
+      const autoHide = stage >= 1 && stage <= SIGNATURE.length ? undefined : 10000;
+      showBubble(bubbleForStage(stage), autoHide);
     } else {
       setShowingTip(true);
       showBubble(
@@ -181,7 +201,7 @@ export default function FloatingChef({ stage }: { stage: number }) {
           station: "Kitchen Tip",
           text: TIPS[Math.floor(Math.random() * TIPS.length)],
         },
-        7000,
+        6000,
       );
     }
   };
@@ -195,7 +215,8 @@ export default function FloatingChef({ stage }: { stage: number }) {
         type="button"
         onClick={() => {
           setMinimized(false);
-          showBubble(bubbleForStage(stage), 12000);
+          const autoHide = stage >= 1 && stage <= SIGNATURE.length ? undefined : 10000;
+          showBubble(bubbleForStage(stage), autoHide);
         }}
         initial={{ scale: 0.85, opacity: 0 }}
         animate={{ scale: 1, opacity: 1, bottom: desktop ? 24 : mobileBottom }}
@@ -210,13 +231,14 @@ export default function FloatingChef({ stage }: { stage: number }) {
   }
 
   // Mobile layout:
-  // - Stage 0 (top / scrolled back up): glides right back to the CENTER in large size (170x215)
-  // - Stage >= 1 (tour & menu): glides neatly to the bottom-right corner (104x132), strictly inside viewport
+  // - Stage 0 (Hero / scrolled back up): large & centered (164x205) with centered bubble above
+  // - Stage >= 1 (Dish Tour & Menu): docked cleanly at bottom-right (96x122) with bubble BESIDE him on the left
+  //   so it NEVER covers the dish photo, title, price, or Add to Order button!
   if (!desktop) {
     const isHero = stage === 0;
     const mobilePos = isHero
-      ? { left: "calc(50vw - 85px)", bottom: 24, width: 170, height: 215 }
-      : { left: "calc(100vw - 116px)", bottom: mobileBottom, width: 104, height: 132 };
+      ? { left: "calc(50vw - 82px)", bottom: 20, width: 164, height: 205 }
+      : { left: "calc(100vw - 108px)", bottom: mobileBottom, width: 96, height: 122 };
 
     return (
       <motion.div
@@ -230,7 +252,8 @@ export default function FloatingChef({ stage }: { stage: number }) {
           {bubble && (
             <SpeechBubble
               bubble={bubble}
-              placement={isHero ? "top-center" : "top-right"}
+              placement={isHero ? "top-center" : "side-left"}
+              compact={!isHero}
               onDismiss={() => setBubble(null)}
             />
           )}
@@ -262,32 +285,36 @@ export default function FloatingChef({ stage }: { stage: number }) {
     );
   }
 
-  // Desktop layout: NO CSS scale shrinking on parent so speech bubble text is ALWAYS 100% sharp & readable.
-  // - Stage 0 (Hero / scrolled back up): returns to center-stage in his grand large size (280x360)
-  // - Stage 1..6 (Dish Tour): generously sized (195x250) in the bottom-right corner, clear of dish photos
-  // - Stage 7 (Menu): stands in the dedicated left sidebar rail above the cart card
+  // Desktop layout:
+  // - Stage 0 (Hero / scrolled back up): large center-stage (280x360) on right half of hero
+  // - Stage 1..6 (Dish Tour): glides smoothly into the OPEN OPPOSITE COLUMN of each dish!
+  //   Chef Crave & his speech bubble own that entire empty half — ZERO text behind him, ZERO photo overlap!
+  // - Stage 7 (Menu): glides cleanly into the left sidebar rail above the cart card
   const isHero = stage === 0;
   const isMenu = stage === 7;
+  const dishImageOnLeft = stage >= 1 && stage <= SIGNATURE.length && (stage - 1) % 2 === 0;
 
   const desktopPos = isHero
-    ? { left: "56%", top: "calc(50vh - 180px)", width: 280, height: 360 }
+    ? { left: "58%", top: "calc(50vh - 180px)", width: 280, height: 360 }
     : isMenu
       ? { left: "max(28px, calc(50vw - 665px))", top: "96px", width: 225, height: 285 }
-      : { left: "calc(100vw - 220px)", top: "calc(100vh - 265px)", width: 195, height: 250 };
+      : dishImageOnLeft
+        ? { left: "65%", top: "calc(50vh - 20px)", width: 240, height: 310 }
+        : { left: "15%", top: "calc(50vh - 20px)", width: 240, height: 310 };
 
   return (
     <motion.div
       className="group fixed z-30"
       initial={false}
       animate={desktopPos}
-      transition={{ type: "spring", stiffness: 70, damping: 18, mass: 0.9 }}
+      transition={{ type: "spring", stiffness: 65, damping: 18, mass: 0.9 }}
       data-testid="chef-mascot"
     >
       <AnimatePresence>
         {bubble && (
           <SpeechBubble
             bubble={bubble}
-            placement={isMenu ? "side-right" : "top-right"}
+            placement={isMenu ? "side-right" : "top-center"}
             onDismiss={() => setBubble(null)}
           />
         )}

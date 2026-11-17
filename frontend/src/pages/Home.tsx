@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import SiteHeader from "@/components/SiteHeader";
 import HeroSection from "@/components/HeroSection";
 import DishSection from "@/components/DishSection";
-import MobileTourCarousel from "@/components/MobileTourCarousel";
 import MenuSection from "@/components/MenuSection";
 import FloatingChef from "@/components/FloatingChef";
 import { SIGNATURE } from "@/data/dishes";
@@ -17,7 +16,7 @@ export default function Home() {
       (entries) => {
         for (const e of entries) if (e.isIntersecting) setStage(Number((e.target as HTMLElement).dataset.stage));
       },
-      { rootMargin: "-45% 0px -50% 0px" },
+      { rootMargin: "-40% 0px -45% 0px" },
     );
     document.querySelectorAll<HTMLElement>("[data-stage]").forEach((el) => io.observe(el));
 
@@ -41,9 +40,6 @@ export default function Home() {
       <main>
         <HeroSection />
         <div id="tour" className="scroll-mt-16">
-          {/* Compact swipeable horizontal showcase on mobile (no endless vertical scroll) */}
-          <MobileTourCarousel onSlideChange={setStage} />
-          {/* Full-screen cinematic tour on desktop */}
           {SIGNATURE.map((dish, i) => (
             <DishSection key={dish.id} dish={dish} index={i} />
           ))}
