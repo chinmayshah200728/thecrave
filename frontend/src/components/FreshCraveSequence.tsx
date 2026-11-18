@@ -40,7 +40,6 @@ function getScene(seconds: number) {
 
 export default function FreshCraveSequence() {
   const sectionRef = useRef<HTMLElement>(null);
-  const stickyRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imageCache = useRef(new Map<number, HTMLImageElement>());
   const loadedFrames = useRef(new Set<number>());
@@ -64,8 +63,7 @@ export default function FreshCraveSequence() {
   useEffect(() => {
     const canvas = canvasRef.current;
     const section = sectionRef.current;
-    const sticky = stickyRef.current;
-    if (!canvas || !section || !sticky) return;
+    if (!canvas || !section) return;
     const context = canvas.getContext("2d", { alpha: false });
     if (!context) return;
 
@@ -130,11 +128,8 @@ export default function FreshCraveSequence() {
     if (!reducedMotion) {
       trigger = ScrollTrigger.create({
         trigger: section,
-        pin: sticky,
-        pinSpacing: false,
         start: "top top",
         end: "bottom bottom",
-        anticipatePin: 1,
         scrub: 0.15,
         onUpdate: (self) => renderFrame(Math.min(FRAME_COUNT - 1, Math.floor(self.progress * (FRAME_COUNT - 1)))),
       });
@@ -152,7 +147,7 @@ export default function FreshCraveSequence() {
 
   return (
     <section ref={sectionRef} id="cinematic-crave" className={`fresh-sequence ${reducedMotion ? "is-reduced" : ""}`} aria-label="The Fresh Crave cinematic kitchen tour">
-      <div ref={stickyRef} className="fresh-sequence__sticky">
+      <div className="fresh-sequence__sticky">
         <canvas ref={canvasRef} className="fresh-sequence__canvas" aria-hidden="true" />
         <div className="fresh-sequence__veil" />
         <div className="fresh-sequence__topline">
