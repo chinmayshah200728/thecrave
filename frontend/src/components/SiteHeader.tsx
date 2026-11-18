@@ -22,7 +22,7 @@ export default function SiteHeader({ showProgress = false }: { showProgress?: bo
           </span>
         </Link>
         <nav className="ml-auto hidden items-center gap-7 font-mono text-[11px] uppercase tracking-[0.22em] text-[#c4b5a5] md:flex">
-          <a href="/#cinematic-crave" className="transition-colors duration-200 hover:text-[#e9b872]" data-testid="nav-tour-link">
+          <a href="/#tour" className="transition-colors duration-200 hover:text-[#e9b872]" data-testid="nav-tour-link">
             Kitchen tour
           </a>
           <a href="/#menu" className="transition-colors duration-200 hover:text-[#e9b872]" data-testid="nav-menu-link">

@@ -1,27 +1,65 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import SiteHeader from "@/components/SiteHeader";
+import HeroSection from "@/components/HeroSection";
+import DishSection from "@/components/DishSection";
 import MenuSection from "@/components/MenuSection";
 import FloatingChef from "@/components/FloatingChef";
 import FreshCraveSequence from "@/components/FreshCraveSequence";
+import { SIGNATURE } from "@/data/dishes";
 
 export default function Home() {
   const [stage, setStage] = useState(0);
 
+  // Trigger each stage early as the product enters view (before crossing it),
+  // and cleanly restore Stage 0 when scrolling back near the top.
   useEffect(() => {
-    const onSceneChange = (event: Event) => {
-      const customEvent = event as CustomEvent<{ stage?: number }>;
-      setStage(customEvent.detail?.stage ?? 0);
+    const sections = Array.from(document.querySelectorAll<HTMLElement>("[data-stage]"));
+    let rafId = 0;
+
+    const updateStage = () => {
+      rafId = 0;
+      if (window.scrollY < window.innerHeight * 0.22) {
+        setStage(0);
+        return;
+      }
+      // Announce each dish as it enters focus (before crossing it), calibrated for mobile vs desktop card heights
+      const triggerY = window.innerHeight * (window.innerWidth >= 1024 ? 0.65 : 0.48);
+      let nextStage = 0;
+      for (const el of sections) {
+        if (el.getBoundingClientRect().top <= triggerY) {
+          nextStage = Number(el.dataset.stage);
+        }
+      }
+      setStage(nextStage);
     };
-    window.addEventListener("fresh-crave:scene", onSceneChange);
-    return () => window.removeEventListener("fresh-crave:scene", onSceneChange);
+
+    const onScroll = () => {
+      if (!rafId) rafId = window.requestAnimationFrame(updateStage);
+    };
+
+    updateStage();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+
+    return () => {
+      if (rafId) window.cancelAnimationFrame(rafId);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
   return (
     <div className="min-h-screen bg-[#17130f] text-[#f6eee3]">
       <SiteHeader showProgress />
       <main>
+        <HeroSection />
         <FreshCraveSequence />
+        <div id="tour" className="scroll-mt-16">
+          {SIGNATURE.map((dish, i) => (
+            <DishSection key={dish.id} dish={dish} index={i} />
+          ))}
+        </div>
         <MenuSection />
       </main>
       <footer className="border-t border-[#e9b872]/10 bg-[#120f0d] pb-24 lg:pb-0">

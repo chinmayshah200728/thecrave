@@ -103,8 +103,6 @@ export default function FreshCraveSequence() {
     const renderFrame = (index: number) => {
       frameRef.current = index;
       setActiveFrame(index);
-      const sceneIndex = scenes.findIndex((scene) => index / FPS >= scene.start && index / FPS < scene.end);
-      window.dispatchEvent(new CustomEvent("fresh-crave:scene", { detail: { stage: sceneIndex === scenes.length - 1 ? 7 : Math.max(0, sceneIndex) } }));
       loadFrame(index);
       for (let offset = 1; offset <= 8; offset += 1) {
         loadFrame(index + offset);
