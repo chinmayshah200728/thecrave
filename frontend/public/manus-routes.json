@@ -1,7 +1,0 @@
-{
-  "routes": [
-    { "path": "/", "title": "The Fresh Crave" },
-    { "path": "/order/:id", "title": "Order Status" },
-    { "path": "/kitchen", "title": "Kitchen Display" }
-  ]
-}
