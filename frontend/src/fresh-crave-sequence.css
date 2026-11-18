@@ -1,6 +1,6 @@
 .fresh-sequence {
   position: relative;
-  height: 1100vh;
+  height: 720vh;
   background: #110e0b;
   color: #f6eee3;
 }
@@ -26,7 +26,6 @@
 .fresh-sequence__canvas {
   display: block;
   object-fit: cover;
-  background: #110e0b url("/animations/fresh-crave/poster.webp") center / cover no-repeat;
 }
 
 .fresh-sequence__veil {
@@ -179,7 +178,7 @@
 
 @media (max-width: 700px) {
   .fresh-sequence {
-    height: 1400vh;
+    height: 850vh;
   }
 
   .fresh-sequence__sticky {

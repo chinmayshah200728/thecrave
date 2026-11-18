@@ -42,7 +42,6 @@ export default function FreshCraveSequence() {
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imageCache = useRef(new Map<number, HTMLImageElement>());
-  const loadedFrames = useRef(new Set<number>());
   const frameRef = useRef(0);
   const [loaded, setLoaded] = useState(0);
   const [activeFrame, setActiveFrame] = useState(0);
@@ -68,11 +67,7 @@ export default function FreshCraveSequence() {
     if (!context) return;
 
     const draw = (index: number) => {
-      let image = imageCache.current.get(index);
-      if (!image?.complete || !image.naturalWidth) {
-        const nearest = [...loadedFrames.current].sort((a, b) => Math.abs(a - index) - Math.abs(b - index))[0];
-        image = nearest === undefined ? undefined : imageCache.current.get(nearest);
-      }
+      const image = imageCache.current.get(index);
       if (!image?.complete || !image.naturalWidth) return;
       const ratio = Math.max(canvas.width / image.naturalWidth, canvas.height / image.naturalHeight);
       const width = image.naturalWidth * ratio;
@@ -96,9 +91,8 @@ export default function FreshCraveSequence() {
       image.src = frameUrl(index);
       image.onload = () => {
         imageCache.current.set(index, image);
-        loadedFrames.current.add(index);
-        setLoaded(Math.round((loadedFrames.current.size / FRAME_COUNT) * 100));
-        draw(frameRef.current);
+        setLoaded((value) => Math.max(value, Math.round((imageCache.current.size / FRAME_COUNT) * 100)));
+        if (index === frameRef.current) draw(index);
       };
       image.onerror = () => {
         if (index === 0) setFailed(true);
@@ -121,7 +115,7 @@ export default function FreshCraveSequence() {
 
     resize();
     loadFrame(0);
-    for (let index = 1; index < 96; index += 1) loadFrame(index);
+    for (let index = 1; index < 18; index += 1) loadFrame(index);
     window.addEventListener("resize", resize);
 
     let trigger: ScrollTrigger | undefined;
@@ -141,7 +135,6 @@ export default function FreshCraveSequence() {
       trigger?.kill();
       window.removeEventListener("resize", resize);
       imageCache.current.clear();
-      loadedFrames.current.clear();
     };
   }, [reducedMotion]);
 
