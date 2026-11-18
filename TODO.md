@@ -5,6 +5,8 @@
 - [x] Build a pinned HTML Canvas sequence driven by GSAP ScrollTrigger progress with reversible scrolling, requestAnimationFrame-friendly image rendering, nearby-frame preloading, resize handling, loading state, fallback, mobile sizing, and reduced-motion behavior.
 - [x] Add real HTML overlays with the six existing dish records, tasting notes, prices, stations, safe menu anchors, and final branding CTA.
 - [x] Integrate the sequence into the existing homepage without replacing cart, checkout, kitchen, order tracking, or current menu-tour surfaces.
+- [x] Make the sequence the primary homepage journey from the first viewport through the six scenes and into the menu, while synchronizing Chef Crave's stage and speech bubble to the active scene.
+- [x] Remove the fixed generation marks visible in the supplied footage's extracted frames without changing the original source video file.
 - [x] Add route manifest and verify frontend typecheck/build.
 
 ## Footage notes
