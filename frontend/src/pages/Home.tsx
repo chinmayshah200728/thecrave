@@ -5,6 +5,7 @@ import HeroSection from "@/components/HeroSection";
 import DishSection from "@/components/DishSection";
 import MenuSection from "@/components/MenuSection";
 import FloatingChef from "@/components/FloatingChef";
+import FreshCraveSequence from "@/components/FreshCraveSequence";
 import { SIGNATURE } from "@/data/dishes";
 
 export default function Home() {
@@ -53,6 +54,7 @@ export default function Home() {
       <SiteHeader showProgress />
       <main>
         <HeroSection />
+        <FreshCraveSequence />
         <div id="tour" className="scroll-mt-16">
           {SIGNATURE.map((dish, i) => (
             <DishSection key={dish.id} dish={dish} index={i} />
